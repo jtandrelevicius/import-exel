@@ -10,7 +10,7 @@ uses
   FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Stan.Param,
   FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Phys.FBDef, Data.DB,
   FireDAC.Phys.IBBase, FireDAC.Phys.FB, FireDAC.Comp.Client,
-  FireDAC.Comp.DataSet, Datasnap.DBClient;
+  FireDAC.Comp.DataSet, Datasnap.DBClient, Vcl.StdCtrls;
 
 type
   TForm1 = class(TForm)
@@ -20,12 +20,23 @@ type
     Panel2: TPanel;
     OpenDialog1: TOpenDialog;
     ProgressBar1: TProgressBar;
-    FDConnection1: TFDConnection;
     FDQuery1: TFDQuery;
     FDUpdateSQL1: TFDUpdateSQL;
-    FDPhysFBDriverLink1: TFDPhysFBDriverLink;
     DataSource1: TDataSource;
+    FDConnectionRAD: TFDConnection;
+    FDPhysFBDriverLink1: TFDPhysFBDriverLink;
+    FDQuery1ID: TIntegerField;
+    FDQuery1DESCRICAO: TStringField;
+    FDQuery1DESCRICAO_CONCATENADA: TStringField;
+    FDQuery1DATA_INICIO: TStringField;
+    FDQuery1DATA_FIM: TStringField;
+    FDQuery1ATO_LEGAL: TStringField;
+    FDQuery1NUMERO: TStringField;
+    FDQuery1ANO: TStringField;
+    FDQuery1CODIGO: TStringField;
+    Edit1: TEdit;
     procedure Panel1Click(Sender: TObject);
+    procedure Panel2Click(Sender: TObject);
   private
     { Private declarations }
     procedure CarregarExel;
@@ -43,6 +54,24 @@ implementation
 {$R *.dfm}
 
 { TForm1 }
+
+function RemoveAcento(aText : string) : string;
+const
+  ComAcento = '‡‚ÍÙ˚„ı·ÈÌÛ˙Á¸Ò˝¿¬ ‘€√’¡…Õ”⁄«‹—›';
+  SemAcento = 'aaeouaoaeioucunyAAEOUAOAEIOUCUNY';
+var
+  x: Cardinal;
+begin;
+  for x := 1 to Length(aText) do
+  try
+    if (Pos(aText[x], ComAcento) <> 0) then
+      aText[x] := SemAcento[ Pos(aText[x], ComAcento) ];
+  except on E: Exception do
+    raise Exception.Create('Erro no processo.');
+  end;
+
+  Result := aText;
+end;
 
 procedure TForm1.CarregarExel;
 begin
@@ -70,12 +99,16 @@ begin
           if Trim(StringGrid1.Cells[0,I]) = '' then
             Continue;
 
-
+        FDQuery1.Active := True;
         FDQuery1.Insert;
-        //FDQuery1DADOS.Value            := StringGrid1.Cells[0,I];
-        //FDQuery1DADOS.Value            := StringGrid1.Cells[1,I];
-       // FDQuery1DADOS.Value            := StringGrid1.Cells[2,I];
-        //FDQuery1DADOS.Value            := StringGrid1.Cells[3,I];
+        FDQuery1CODIGO.Value                      := RemoveAcento(AnsiUpperCase(StringGrid1.Cells[0,I]));
+        FDQuery1DESCRICAO.Value                   := RemoveAcento(AnsiUpperCase(StringGrid1.Cells[1,I]));
+        FDQuery1DESCRICAO_CONCATENADA.Value       := RemoveAcento(AnsiUpperCase(StringGrid1.Cells[3,I]));
+        FDQuery1DATA_INICIO.Value                 := RemoveAcento(AnsiUpperCase(StringGrid1.Cells[4,I]));
+        FDQuery1DATA_FIM.Value                    := RemoveAcento(AnsiUpperCase(StringGrid1.Cells[5,I]));
+        FDQuery1ATO_LEGAL.Value                   := RemoveAcento(AnsiUpperCase(StringGrid1.Cells[6,I]));
+        FDQuery1NUMERO.Value                      := RemoveAcento(AnsiUpperCase(StringGrid1.Cells[7,I]));
+        FDQuery1ANO.Value                         := RemoveAcento(AnsiUpperCase(StringGrid1.Cells[8,I]));
         //FDQuery1DATA_IMPORTACAO.AsDateTime := Now;
         FDQuery1.Post;
   end;
@@ -83,6 +116,7 @@ begin
   Showmessage('Dados importados');
 
   finally
+     FDQuery1.Active := False;
      FDQuery1.DisposeOf;
   end;
 
@@ -91,6 +125,11 @@ end;
 procedure TForm1.Panel1Click(Sender: TObject);
 begin
    CarregarExel;
+end;
+
+procedure TForm1.Panel2Click(Sender: TObject);
+begin
+   ImportarExel;
 end;
 
 end.

@@ -3,14 +3,41 @@ unit Unit1;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Grids, uImportExcel,
-  Vcl.ComCtrls, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error,
-  FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
-  FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Stan.Param,
-  FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Phys.FBDef, Data.DB,
-  FireDAC.Phys.IBBase, FireDAC.Phys.FB, FireDAC.Comp.Client,
-  FireDAC.Comp.DataSet, Datasnap.DBClient, Vcl.StdCtrls;
+  Winapi.Windows, 
+  Winapi.Messages, 
+  System.SysUtils, 
+  System.Variants, 
+  System.Classes, 
+  Vcl.Graphics,
+  Vcl.Controls, 
+  Vcl.Forms, 
+  Vcl.Dialogs, 
+  Vcl.ExtCtrls, 
+  Vcl.Grids, 
+  uImportExcel,
+  Vcl.ComCtrls, 
+  FireDAC.Stan.Intf, 
+  FireDAC.Stan.Option, 
+  FireDAC.Stan.Error,
+  FireDAC.UI.Intf, 
+  FireDAC.Phys.Intf,
+  FireDAC.Stan.Def, 
+  FireDAC.Stan.Pool,
+  FireDAC.Stan.Async, 
+  FireDAC.Phys, 
+  FireDAC.VCLUI.Wait, 
+  FireDAC.Stan.Param,
+  FireDAC.DatS, 
+  FireDAC.DApt.Intf, 
+  FireDAC.DApt, 
+  FireDAC.Phys.FBDef, 
+  Data.DB,
+  FireDAC.Phys.IBBase, 
+  FireDAC.Phys.FB, 
+  FireDAC.Comp.Client,
+  FireDAC.Comp.DataSet, 
+  Datasnap.DBClient, 
+  Vcl.StdCtrls;
 
 type
   TForm1 = class(TForm)
@@ -57,7 +84,7 @@ implementation
 
 function RemoveAcento(aText : string) : string;
 const
-  ComAcento = 'àâêôûãõáéíóúçüñýÀÂÊÔÛÃÕÁÉÍÓÚÇÜÑÝ';
+  ComAcento = 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½';
   SemAcento = 'aaeouaoaeioucunyAAEOUAOAEIOUCUNY';
 var
   x: Cardinal;
